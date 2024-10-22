@@ -27,6 +27,14 @@ package jdk.internal.util;
 import jdk.internal.misc.Unsafe;
 import jdk.internal.vm.annotation.IntrinsicCandidate;
 
+
+// jdk.internal 包是用来做什么的。这个包其实是 Java 开发者工具包（JDK）中的一个内部包，通常包含一些供 JDK 自身使用的内部 API 和实现细节。
+
+// jdk.internal 包中的类和方法通常不是为公共使用而设计的，而是为了 JDK 内部的实现需要而存在的。因此，开发者在编写自己的 Java 应用程序时，应当避免直接使用 jdk.internal 包中的类或方法，因为它们可能随着 JDK 版本的更新而发生变化，不具有稳定性。
+
+// 总的来说，jdk.internal 包是为了 JDK 内部实现而存在的，开发者应当优先使用 JDK 提供的公共 API 和包来编写自己的 Java 应用程序。
+
+
 /**
  * Utility methods to work with arrays.  This includes a set of methods
  * to find a mismatch between two primitive arrays.  Also included is

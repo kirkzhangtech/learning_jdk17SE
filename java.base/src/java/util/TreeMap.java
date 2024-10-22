@@ -313,6 +313,7 @@ public class TreeMap<K,V>
     public void putAll(Map<? extends K, ? extends V> map) {
         int mapSize = map.size();
         if (size==0 && mapSize!=0 && map instanceof SortedMap) {
+            // 如果两个comparator一样就可以进行构建map
             if (Objects.equals(comparator, ((SortedMap<?,?>)map).comparator())) {
                 ++modCount;
                 try {
@@ -323,6 +324,7 @@ public class TreeMap<K,V>
                 return;
             }
         }
+        // 如果是空的treemap就执行下面的方法进行构建
         super.putAll(map);
     }
 
@@ -1304,18 +1306,23 @@ public class TreeMap<K,V>
     // View class support
 
     class Values extends AbstractCollection<V> {
+        //@Override
+        // 超类实现了Iterator
         public Iterator<V> iterator() {
             return new ValueIterator(getFirstEntry());
         }
-
+        //@Overrides: size() in AbstractCollection
         public int size() {
             return TreeMap.this.size();
         }
 
+        @Override
         public boolean contains(Object o) {
+            // 表示在内部类中引用外部类的实例
             return TreeMap.this.containsValue(o);
         }
 
+        @Override
         public boolean remove(Object o) {
             for (Entry<K,V> e = getFirstEntry(); e != null; e = successor(e)) {
                 if (valEquals(e.getValue(), o)) {
@@ -1326,6 +1333,7 @@ public class TreeMap<K,V>
             return false;
         }
 
+        @Override
         public void clear() {
             TreeMap.this.clear();
         }
@@ -1341,6 +1349,7 @@ public class TreeMap<K,V>
         }
 
         public boolean contains(Object o) {
+            // 在上面提到的代码中，使用类似于if (!(o instanceof Map.Entry<?, ?> entry))的语法实际上是Java 14中引入的模式匹配实例操作符。这种语法允许在instanceof检查的同时将对象转换为新的变量
             if (!(o instanceof Map.Entry<?, ?> entry))
                 return false;
             Object value = entry.getValue();
@@ -1469,6 +1478,7 @@ public class TreeMap<K,V>
         int expectedModCount;
 
         PrivateEntryIterator(Entry<K,V> first) {
+            // 内部类可以直接访问外部类private字段
             expectedModCount = modCount;
             lastReturned = null;
             next = first;
@@ -1484,6 +1494,7 @@ public class TreeMap<K,V>
                 throw new NoSuchElementException();
             if (modCount != expectedModCount)
                 throw new ConcurrentModificationException();
+            // successor是外部类函数
             next = successor(e);
             lastReturned = e;
             return e;
@@ -1522,7 +1533,8 @@ public class TreeMap<K,V>
             return nextEntry();
         }
     }
-
+    // 在Java中，使用final关键字修饰一个类时，表示这个类是一个最终类（final class）。
+    // 最终类是指不能被其他类继承的类，也就是说，不能有子类继承这个最终类。
     final class ValueIterator extends PrivateEntryIterator<V> {
         ValueIterator(Entry<K,V> first) {
             super(first);
@@ -2369,6 +2381,7 @@ public class TreeMap<K,V>
     /**
      * Node in the Tree.  Doubles as a means to pass key-value pairs back to
      * user (see Map.Entry).
+     * 这是treeMap中的node节点
      */
 
     static final class Entry<K,V> implements Map.Entry<K,V> {

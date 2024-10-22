@@ -160,6 +160,8 @@ public final class Objects {
      * otherwise.
      * @see Objects#toString(Object)
      */
+
+     // 最终调用 的 Object的toString()方法
     public static String toString(Object o, String nullDefault) {
         return (o != null) ? o.toString() : nullDefault;
     }
@@ -184,6 +186,7 @@ public final class Objects {
      * @see Comparable
      * @see Comparator
      */
+    // 但是要传入比较器
     public static <T> int compare(T a, T b, Comparator<? super T> c) {
         return (a == b) ? 0 :  c.compare(a, b);
     }
@@ -204,6 +207,7 @@ public final class Objects {
      * @throws NullPointerException if {@code obj} is {@code null}
      */
     @ForceInline
+    // @ForceInline是Java中用于强制内联的注解。内联（Inlining）是一种编译优化技术，可以将方法调用处直接替换为方法体，从而减少方法调用的开销，提高代码的执行效率。
     public static <T> T requireNonNull(T obj) {
         if (obj == null)
             throw new NullPointerException();
@@ -268,6 +272,7 @@ public final class Objects {
      * @see java.util.function.Predicate
      * @since 1.8
      */
+    // 不为null返回true
     public static boolean nonNull(Object obj) {
         return obj != null;
     }
